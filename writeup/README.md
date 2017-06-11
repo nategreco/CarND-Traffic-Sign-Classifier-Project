@@ -117,7 +117,7 @@ Here are the signs that I found via google image search:
 
 ![Internet samples][image3]
 
-The first image, no entry, could be a challenge due to both the skew of the sign (due to perspective of the photo), and the outline of another sign on the backside of it.  The beware of ice/snow sign may also be an issue due to some pixelation of the snowflake graphic as well as a watermark thats ontop of the image.  The yield sign also has a watermark on it which adds some noise to the image, however, the simple and unique geometry of the yield sign should make it easy for the model to distinguish from others.
+The first image, no entry, could be a challenge due to both the skew of the sign (due to perspective of the photo), and the outline of another sign on the backside of it.  The beware of ice/snow sign may also be an issue due to some pixelation of the snowflake graphic (after resizing) as well as a watermark ontop of the image.  The yield sign also has a watermark on it which adds some noise to the image, however, the simple and unique geometry of the yield sign should make it easy for the model to distinguish from others.  I expect the right-of-way and speed limit signs to be easy to recognize due to direct on perspective and little noise in the image.
 
 #### 2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set.
 
@@ -132,7 +132,7 @@ Here are the results of the prediction:
 | Yield								| Yield			    							|
 
 
-The model was able to correctly guess 5 of the 5 traffic signs, which gives an accuracy of 100%. This compares favorably to the accuracy on the test set of ...
+The model was able to correctly guess 5 of the 5 traffic signs, which gives an accuracy of 100%. Obviously the sample size of 5 makes for a difficult comparison to the results of the test set, but the test set's 95% result would lend to the expectation of a 100% or at least 80% result from the web images.  Also, it's worth noting that frequently my model returned 80% due to the failure to recognize image 4 (beware of ice/snow) and prior to implementation of augmentation and dropout, the result was usually 0%.
 
 #### 3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction.
 
@@ -195,6 +195,8 @@ Image 5:
 
 ### (Optional) Visualizing the Neural Network
 #### 1. Discuss the visual output of your trained network's feature maps. What characteristics did the neural network use to make classifications?
+
+The second image, right-of-way, is a good one to examine to understand what the feature maps are looking for.  In feature map 0, it pulls out the triangle geometry and the small graphic in the center while disregarding the red border and anything else in the background.  In feature map 1, it identifies the smaller triangle within the larger triangle, allowing it to distinguish that there is a border.  Feature map 2 seems to ignore everything within the sign and look at the background.  Possibly this is it examining the overall outline and geometry of the sign, or maybe this step is distinguishing it from the fourth image, betware of ice/snow, where it still identifies the snowflake graphic.
 
 ![Visual Features 1][image4]
 ![Visual Features 2][image5]
