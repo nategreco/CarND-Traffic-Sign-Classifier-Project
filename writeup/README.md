@@ -32,7 +32,7 @@ The goals / steps of this project are the following:
 
 #### 1. Provide a Writeup / README that includes all the rubric points and how you addressed each one.
 
-Please consider this README.md as my writeup, and addtionally see the [project code here](https://github.com/nategreco/CarND-Traffic-Sign-Classifier-Project/blob/master/Traffic_Sign_Classifier.ipynb) for further reference.
+Please consider this README.md as my writeup, and addtionally see the [project code here](https://github.com/nategreco/CarND-Traffic-Sign-Classifier-Project/blob/master/writeup/Traffic_Sign_Classifier.html) for further reference.
 
 ### Data Set Summary & Exploration
 
@@ -58,7 +58,7 @@ Additionally, in the Jupyter Notebook I have plotted one of each image classific
 
 #### 1. Describe how you preprocessed the image data. What techniques were chosen and why did you choose these techniques?
 
-There was a lot of experimentation in this step.  Initially, I attempted only to clean-up the image and highlight features.  The function 'process_image()' was used to both maximize contrast and sharpen the image.  Afterwards the image was normalize from -1.0 to 1.0 for each element.  The thinking was higher contrast and sharper image would distinguish each classification type further from each other.  This theory proved true and training accuracy increased faster and further, however, the prediction operation failed to recognize any of the web images.  This is because the web images introduced variations that did not exist in the training set such as skew, rotation, displacement, etc.  Therefore the 'augment_image' function was implemented for the training and validation sets to introduce these varations.  This immediately improved the detection of the web image samples.
+There was a lot of experimentation in this step.  Initially, I attempted only to clean-up the image and highlight features.  The function 'process_image()' was used to both maximize contrast and sharpen the image.  Afterwards the image was normalized from -1.0 to 1.0 for each element.  The thinking was that a higher contrast and a sharper image would distinguish each classification type further from each other.  This theory proved true and training accuracy increased faster and further; however, the prediction operation failed to recognize any of the web images.  This is because the web images introduced variations that did not exist in the training set such as skew, rotation, displacement, etc.  Therefore the 'augment_image' function was implemented for the training and validation sets to introduce these varations.  This immediately improved the detection of the web image samples.
 
 I then experimented further with other processing with mixed results.  Other processing that was tested:
 * BGR to HSV conversion
@@ -100,7 +100,7 @@ The training model utilized the Adam optimizer and batching with a batch size of
 
 #### 4. Describe the approach taken for finding a solution and getting the validation set accuracy to be at least 0.93.
 
-Much of the steps have been outlined above, but the most critical were preparing the image and augmenting.  Initially I used the LeNet model and only normalizing of the image sets and found a maximum accuracy of 92% with the validation set.  Next, I implemented image sharpening and maximizing contrast, which improved results to 94%.  Next, I implemented dropout and a exponential decay for learning rate and reached an accuracy of 96.5%, my best, however the results for my test set were not as strong and none of the web images were detected.  I attributed this to the tendency of the network to memorize the training and validation sets, so the solution was augmenting the images.  Augmentation made the biggest improvement and although the final validation set accuracy went back down to 95%, my test set and web samples produced much better results.
+Much of the steps have been outlined above, but the most critical were preparing the image and augmenting.  Initially I used the LeNet model and only normalizing of the image sets and found a maximum accuracy of 92% with the validation set.  Next, I implemented image sharpening and maximizing contrast, which improved results to 94%.  Next, I implemented dropout to discourage overfitting.  Finally, an exponential decay for learning rate was added to prevent overshooting.  This allowed the model to reach an accuracy of 96.5%, my best, however the results for my test set were not as strong and none of the web images were detected.  I attributed this to the tendency of the network to memorize the training and validation sets, so the solution was augmenting the images.  Augmentation made the biggest improvement and although the final validation set accuracy went back down to 95%, my test set and web samples produced much better results.
 
 My final model results were:
 * Validation set accuracy of 95% 
