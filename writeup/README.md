@@ -32,7 +32,7 @@ The goals / steps of this project are the following:
 
 #### 1. Provide a Writeup / README that includes all the rubric points and how you addressed each one.
 
-Please consider this README.md as my writeup, and addtionally see the [project code here](https://github.com/nategreco/CarND-Traffic-Sign-Classifier-Project/blob/master/writeup/Traffic_Sign_Classifier.html) for further reference.
+Please consider this README.md as my writeup, and addtionally see the project code [here as an html](https://github.com/nategreco/CarND-Traffic-Sign-Classifier-Project/blob/master/writeup/Traffic_Sign_Classifier.html) or [here as a Jupyter Notebook](https://github.com/nategreco/CarND-Traffic-Sign-Classifier-Project/blob/master/Traffic_Sign_Classifier.ipynb) for further reference.
 
 ### Data Set Summary & Exploration
 
