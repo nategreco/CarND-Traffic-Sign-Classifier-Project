@@ -58,7 +58,7 @@ Additionally, in the Jupyter Notebook I have plotted one of each image classific
 
 #### 1. Describe how you preprocessed the image data. What techniques were chosen and why did you choose these techniques?
 
-There was a lot of experimentation in this step.  Initially, I attempted only to clean-up the image and highlight features.  The function 'process_image()' was used to both maximize contrast and sharpen the image.  Afterwards the image was normalize from -1.0 to 1.0 for each element.  The thinking was higher contrast and sharper image would distinguish each classificatino type further from each other.  This theory proved true and training accuracy increased faster and further, however, the prediction operation failed to recognize any of the web images.  This is because the web images introduced variations that did not exist in the traing set such as skew, rotation, displacement, etc.  Therefore the 'augment_image' function was implemented for the training and validation sets to introduce these varations.  This immediately improved the detection of the web image samples.
+There was a lot of experimentation in this step.  Initially, I attempted only to clean-up the image and highlight features.  The function 'process_image()' was used to both maximize contrast and sharpen the image.  Afterwards the image was normalize from -1.0 to 1.0 for each element.  The thinking was higher contrast and sharper image would distinguish each classification type further from each other.  This theory proved true and training accuracy increased faster and further, however, the prediction operation failed to recognize any of the web images.  This is because the web images introduced variations that did not exist in the training set such as skew, rotation, displacement, etc.  Therefore the 'augment_image' function was implemented for the training and validation sets to introduce these varations.  This immediately improved the detection of the web image samples.
 
 I then experimented further with other processing with mixed results.  Other processing that was tested:
 * BGR to HSV conversion
@@ -66,6 +66,7 @@ I then experimented further with other processing with mixed results.  Other pro
 * Canny edges image added as a 4th channel to the BGR image
 
 Ultimately, the BGR only input image was found to have the best results in final accuracy during training, test set accuracy, and web image accuracy.  As of right now the code can be toggled between all the input types by adjusting the 'n_channels' variable at step 0 and commenting in/out the HSV conversion.  Examples of the original, augmented, processed, and canny images are below:
+
 ![Examples][image2]
 
 #### 2. Describe what your final model architecture looks like including model type, layers, layer sizes, connectivity, etc.).
@@ -93,15 +94,16 @@ My final model was the standard LeNet, similar to what was used in the Lenet lab
 
 #### 3. Describe how you trained your model. The discussion can include the type of optimizer, the batch size, number of epochs and any hyperparameters such as learning rate.
 
-The training model utilized the Adam optimizer and batching with a batch size of 128.  Additionally, I implemented the exponential decay of the learning rate and a hyperparameter for dropout keep probability.  The dropout function helped prevent overfitting, meanwhile the exponential decay allowed me to start with a higher learning rate.  Starting a with a higher learning rate allowed me to make larger improvements in accuracy in the initial epochs, however, the decayed lower learning rate helped avoid overs-hooting during back propagation and get past what would be a local minimum due to a higher learning rate.  Regarding the number of epochs, a larger number was chosen but a break condition was added when the target accuracy of 0.95 was reached.
+The training model utilized the Adam optimizer and batching with a batch size of 128.  Additionally, I implemented the exponential decay of the learning rate and a hyperparameter for dropout keep probability.  The dropout function helped prevent overfitting, meanwhile the exponential decay allowed me to start with a higher learning rate.  Starting a with a higher learning rate allowed me to make larger improvements in accuracy in the initial epochs, however, the decayed lower learning rate helped avoid over-shooting during back propagation and getting stuck in local minimums due too high of a learning rate.  Regarding the number of epochs, a larger number was chosen but a break condition was added when the target accuracy of 0.95 was reached.
 
 #### 4. Describe the approach taken for finding a solution and getting the validation set accuracy to be at least 0.93.
 
 Much of the steps have been outlined above, but key ...
 
 My final model results were:
-* validation set accuracy of 95% 
-* test set accuracy of 95.17%
+* Validation set accuracy of 95% 
+* Test set accuracy of 95.17%
+* Web sample accuracy of 100.0%
 
 If an iterative approach was chosen:
 * What was the first architecture that was tried and why was it chosen?
@@ -121,6 +123,7 @@ If a well known architecture was chosen:
 #### 1. Choose five German traffic signs found on the web and provide them in the report.
 
 Here are five German traffic signs that I found on the web:
+
 ![Internet samples][image3]
 
 The first image might be difficult to classify because ...
@@ -146,19 +149,55 @@ The code for making predictions on my final model is located in the 11th cell of
 
 For the first image, the model is relatively sure that this is a stop sign (probability of 0.6), and the image does contain a stop sign. The top five soft max probabilities were
 
+Image 1:
 | Probability         	|     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
-| .60         			| Stop sign   									| 
-| .20     				| U-turn 										|
-| .05					| Yield											|
-| .04	      			| Bumpy Road					 				|
-| .01				    | Slippery Road      							|
+| 99.9998%     			| No entry  									| 
+| 0.00019%     			| Stop 											|
+| 0.00001%				| No passing 									|
+| 0.00000%	      		| Bumpy Road					 				|
+| 0.00000%			    | Bicycles crossing    							|
 
+Image 2:
+| Probability         	|     Prediction	        					| 
+|:---------------------:|:---------------------------------------------:| 
+| 88.2027% 				| Right-of-way at the next intersection 		|
+| 11.7153% 				| Beware of ice/snow 							|
+| 0.08105% 				| Speed limit (100km/h) 						|
+| 0.00041% 				| Vehicles over 3.5 metric tons prohibited 		|
+| 0.00020% 				| Dangerous curve to the right 					|
 
-For the second image ... 
+Image 3:
+| Probability         	|     Prediction	        					| 
+|:---------------------:|:---------------------------------------------:| 
+| 99.9412% 				| Speed limit (60km/h) 							|
+| 0.05824% 				| Speed limit (50km/h) 							|
+| 0.00045% 				| Speed limit (80km/h) 							|
+| 0.00007% 				| Wild animals crossing 						|
+| 0.00005% 				| No passing 									|
+
+Image 4:
+| Probability         	|     Prediction	        					| 
+|:---------------------:|:---------------------------------------------:| 
+| 80.0562% 				| Beware of ice/snow 							|
+| 7.58810% 				| Road narrows on the right 					|
+| 5.55834% 				| Slippery road 								|
+| 3.21945% 				| Bicycles crossing 							|
+| 1.31002% 				| Double curve 									|
+
+Image 5:
+| Probability         	|     Prediction	        					| 
+|:---------------------:|:---------------------------------------------:| 
+| 100.000% 				| Yield 										|
+| 0.00000% 				| Priority road 								|
+| 0.00000% 				| No passing 									|
+| 0.00000% 				| No vehicles 									|
+| 0.00000% 				| Speed limit (50km/h) 							|
+
 
 ### (Optional) Visualizing the Neural Network
 #### 1. Discuss the visual output of your trained network's feature maps. What characteristics did the neural network use to make classifications?
+
 ![Visual Features 1][image4]
 ![Visual Features 2][image5]
 ![Visual Features 3][image6]
