@@ -150,6 +150,7 @@ The code for making predictions on my final model is located in the 11th cell of
 For the first image, the model is relatively sure that this is a stop sign (probability of 0.6), and the image does contain a stop sign. The top five soft max probabilities were
 
 Image 1:
+
 | Probability         	|     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
 | 99.9998%     			| No entry  									| 
@@ -159,6 +160,7 @@ Image 1:
 | 0.00000%			    | Bicycles crossing    							|
 
 Image 2:
+
 | Probability         	|     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
 | 88.2027% 				| Right-of-way at the next intersection 		|
@@ -168,6 +170,7 @@ Image 2:
 | 0.00020% 				| Dangerous curve to the right 					|
 
 Image 3:
+
 | Probability         	|     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
 | 99.9412% 				| Speed limit (60km/h) 							|
@@ -177,6 +180,7 @@ Image 3:
 | 0.00005% 				| No passing 									|
 
 Image 4:
+
 | Probability         	|     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
 | 80.0562% 				| Beware of ice/snow 							|
@@ -186,6 +190,7 @@ Image 4:
 | 1.31002% 				| Double curve 									|
 
 Image 5:
+
 | Probability         	|     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
 | 100.000% 				| Yield 										|
