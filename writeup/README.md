@@ -71,11 +71,13 @@ Ultimately, the BGR only input image was found to have the best results in final
 
 #### 2. Describe what your final model architecture looks like including model type, layers, layer sizes, connectivity, etc.).
 
-My final model was the standard LeNet, similar to what was used in the Lenet lab, however I modified it to handle different inputs depending on channels and also added dropout after the first fully connected layer:
+My final model was the standard LeNet, similar to what was used in the Lenet lab, however I modified it to handle different inputs depending on channels and also added dropout after the first fully connected layer.  Additionally I experimented with various types of activation functions between layers such as sigmoid and hyperbolic tangent, but found best performance with ReLu.
+
+My final model:
 
 | Layer         		| Description		        										| 
 |:---------------------:|:-----------------------------------------------------------------:| 
-| Input         		| 32x32x3 BGR image (also tested HSV, Grayscale, and BGR + Canny) 	| 
+| Input         		| 32x32x3 BGR image (also accepts HSV, Grayscale, and BGR + Canny) 	| 
 | Convolution	     	| 1x1 stride, valid padding, outputs 28x28x6 						|
 | RELU					|																	|
 | Max pooling	      	| 2x2 stride, valid padding, outputs 14x14x6 						|
@@ -98,35 +100,24 @@ The training model utilized the Adam optimizer and batching with a batch size of
 
 #### 4. Describe the approach taken for finding a solution and getting the validation set accuracy to be at least 0.93.
 
-Much of the steps have been outlined above, but key ...
+Much of the steps have been outlined above, but the most critical were preparing the image and augmenting.  Initially I used the LeNet model and only normalizing of the image sets and found a maximum accuracy of 92% with the validation set.  Next, I implemented image sharpening and maximizing contrast, which improved results to 94%.  Next, I implemented dropout and a exponential decay for learning rate and reached an accuracy of 96.5%, my best, however the results for my test set were not as strong and none of the web images were detected.  I attributed this to the tendency of the network to memorize the training and validation sets, so the solution was augmenting the images.  Augmentation made the biggest improvement and although the final validation set accuracy went back down to 95%, my test set and web samples produced much better results.
 
 My final model results were:
 * Validation set accuracy of 95% 
 * Test set accuracy of 95.17%
 * Web sample accuracy of 100.0%
 
-If an iterative approach was chosen:
-* What was the first architecture that was tried and why was it chosen?
-* What were some problems with the initial architecture?
-* How was the architecture adjusted and why was it adjusted? Typical adjustments could include choosing a different model architecture, adding or taking away layers (pooling, dropout, convolution, etc), using an activation function or changing the activation function. One common justification for adjusting an architecture would be due to overfitting or underfitting. A high accuracy on the training set but low accuracy on the validation set indicates over fitting; a low accuracy on both sets indicates under fitting.
-* Which parameters were tuned? How were they adjusted and why?
-* What are some of the important design choices and why were they chosen? For example, why might a convolution layer work well with this problem? How might a dropout layer help with creating a successful model?
-
-If a well known architecture was chosen:
-* What architecture was chosen?
-* Why did you believe it would be relevant to the traffic sign application?
-* How does the final model's accuracy on the training, validation and test set provide evidence that the model is working well?
- 
+For me the most noteworthy lesson from experimenting with different models was a high accuracy of the validation set during training does not directly indicate good training.  Before augmentation was implemented none of the web-samples could be recognized even though validation set accuracy was 96%.  I believe this is an indication of overfitting or perhaps memorization of the training and validation sets.
 
 ### Test a Model on New Images
 
 #### 1. Choose five German traffic signs found on the web and provide them in the report.
 
-Here are five German traffic signs that I found on the web:
+Here are the signs that I found via google image search:
 
 ![Internet samples][image3]
 
-The first image might be difficult to classify because ...
+The first image, no entry, could be a challenge due to both the skew of the sign (due to perspective of the photo), and the outline of another sign on the backside of it.  The beware of ice/snow sign may also be an issue due to some pixelation of the snowflake graphic as well as a watermark thats ontop of the image.  The yield sign also has a watermark on it which adds some noise to the image, however, the simple and unique geometry of the yield sign should make it easy for the model to distinguish from others.
 
 #### 2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set.
 
@@ -145,9 +136,11 @@ The model was able to correctly guess 5 of the 5 traffic signs, which gives an a
 
 #### 3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction.
 
-For the most part, the prediction probabilities make sense for the selected signs.  The first, second, and third likely signs usually bear a similar geometric shape and generally the same appearance.  In particular, every speed limit sign usually has the other speed limit signs as possibilities, this is due in part by the fact that they are all red circles with white spac in the middle and black text.  This makes sense particularly when you look at initial images and realize how granulated the text becomes and it's difficult for the training set to learn the characters due to pixelation.  However the speed limit signs still did well with the 60 km/hr sign 99.94% probable.
+For the most part, the prediction probabilities make sense for the selected signs.  The first, second, and third likely signs usually bear a similar geometric shape and generally the same appearance.  In particular, every speed limit sign usually has the other speed limit signs as possibilities, this is due in part by the fact that they are all red circles with white space in the middle and black text.  This makes sense particularly when you look at initial images and realize how granulated the text becomes and it's difficult for the training set to learn the characters due to pixelation.  However the speed limit signs still did well with the 60 km/hr sign 99.94% probable.
 
-The signs that were the greatest struggle to distinguish from one another were the Right-of-way, Beware of ice/snow, and slippery road signs.  Again, this is becuase the basic geometry, a red triangle with white interior and black graphic, was the same.  For image 2 probability of right away was only 88.21%, and for image 4 was only 80.06% that it was beware of ice and snow.  Image 4 was actually the most difficult to identify and while experimenting with the training model this one was often detected as right-of-way or slippery road instead.  This is understandable when you look at the processed 32x32 image examples and see how pixelated in snowflake graphic is, at that resolution is distorted enough that it's difficult even for a human to distinguish between the others.  I believe a higher resolution input image correct this.
+The signs that were the greatest struggle to distinguish from one another were the right-of-way, beware of ice/snow, and slippery road signs.  Again, this is becuase the basic geometry, a red triangle with white interior and black graphic, was the same.  For image 2 probability of right away was only 88.21%, and for image 4 was only 80.06% that it was beware of ice and snow.  Image 4 was actually the most difficult to identify and while experimenting with the training model this one was often detected as right-of-way or slippery road instead.  This is understandable when you look at the processed 32x32 image examples and see how pixelated in snowflake graphic is, at that resolution is distorted enough that it's difficult even for a human to distinguish between the others.  I believe a higher resolution input image correct this.
+
+The sign that did the best was the yield sign, with 100.00% detection for yield and ~0.00% for all others.  I believe this is because the yield sign does not share any geometry in common with other signs, being the only up-side-down triangle.
 
 Image 1:
 
