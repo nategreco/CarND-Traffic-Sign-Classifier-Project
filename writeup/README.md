@@ -145,9 +145,9 @@ The model was able to correctly guess 5 of the 5 traffic signs, which gives an a
 
 #### 3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction.
 
-The code for making predictions on my final model is located in the 11th cell of the Ipython notebook.
+For the most part, the prediction probabilities make sense for the selected signs.  The first, second, and third likely signs usually bear a similar geometric shape and generally the same appearance.  In particular, every speed limit sign usually has the other speed limit signs as possibilities, this is due in part by the fact that they are all red circles with white spac in the middle and black text.  This makes sense particularly when you look at initial images and realize how granulated the text becomes and it's difficult for the training set to learn the characters due to pixelation.  However the speed limit signs still did well with the 60 km/hr sign 99.94% probable.
 
-For the first image, the model is relatively sure that this is a stop sign (probability of 0.6), and the image does contain a stop sign. The top five soft max probabilities were
+The signs that were the greatest struggle to distinguish from one another were the Right-of-way, Beware of ice/snow, and slippery road signs.  Again, this is becuase the basic geometry, a red triangle with white interior and black graphic, was the same.  For image 2 probability of right away was only 88.21%, and for image 4 was only 80.06% that it was beware of ice and snow.  Image 4 was actually the most difficult to identify and while experimenting with the training model this one was often detected as right-of-way or slippery road instead.  This is understandable when you look at the processed 32x32 image examples and see how pixelated in snowflake graphic is, at that resolution is distorted enough that it's difficult even for a human to distinguish between the others.  I believe a higher resolution input image correct this.
 
 Image 1:
 
